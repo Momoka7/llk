@@ -1,0 +1,8 @@
+{
+    "tiles": {
+        "bingyibu": {
+            "value": "bingyibu",
+            "avatar": "./public/tiles/冰伊布.png"
+        }
+    }
+}
