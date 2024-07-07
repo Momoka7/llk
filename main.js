@@ -2,7 +2,8 @@ import * as PIXI from "pixi.js";
 import { Board } from "./src/game/board";
 import { Timer } from "./src/components/controller/timer";
 import { Alert } from "./src/components/controller/alert";
-import { spriteRes } from "./src/utils/constants";
+import { spriteRes, dsSpriteRes } from "./src/utils/constants";
+import { switchPanel } from "./src/components/tileselector";
 
 const app = new PIXI.Application();
 app
@@ -17,7 +18,7 @@ app
   .then(() => {
     window.ticker = PIXI.Ticker.shared;
 
-    const board = new Board(10, 10, spriteRes, 80, 80);
+    const board = new Board(10, 10, dsSpriteRes, 80, 80);
     board.initBoard();
     app.stage.addChild(board);
     board.pivot.set(board.width / 2, board.height / 2);
@@ -39,6 +40,10 @@ app
     gameoverHint.position.set(window.innerWidth / 2, window.innerHeight / 2);
     app.stage.addChild(gameoverHint);
 
+    const sp = switchPanel(board);
+    app.stage.addChild(sp);
+    sp.y = window.innerHeight / 2 - sp.height - 20;
+
     timer.setTimeUpEvent(() => {
       console.log("time up");
       timeupHint.show();
@@ -46,6 +51,7 @@ app
 
     timeupHint.setClickEvent(() => {
       timer.reset();
+      board.reloadPuzzle();
     });
 
     board.setGameOverEvent(() => {

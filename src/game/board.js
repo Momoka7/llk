@@ -22,11 +22,18 @@ export class Board extends PIXI.Container {
   }
 
   reloadPuzzle() {
+    this.removeChildren();
     this.puzzle = new Puzzle(this.row, this.col, this.contentObj);
     this.tileMatrix = [];
     this.selectedTiles = [];
     this.initBoard();
     this.clearSelectedTiles();
+  }
+
+  setContentAndReloadBoard(contentRes) {
+    this.contentObj = contentRes;
+    this.removeChildren();
+    this.reloadPuzzle();
   }
 
   initBoard() {
@@ -200,7 +207,7 @@ export class Board extends PIXI.Container {
   }
 
   setTileEvent(tile) {
-    tile.onmousedown = (e) => {
+    tile.onpointerdown = (e) => {
       e.stopPropagation();
       this.emit("tileClick", tile);
     };
